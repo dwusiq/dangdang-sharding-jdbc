@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--对应mapper接口 -->
+<mapper namespace="com.wusiq.sharding.mapper.UserMapper">
+    <resultMap id="userMap" type="com.wusiq.sharding.po.TbUser">
+        <id column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" property="userID"/>
+        <result column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" property="userName"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.wusiq.sharding.po.TbUser">
+        insert into tb_user (user_id,user_name)values(#{userID},#{userName})
+    </insert>
+
+    <update id="update" parameterType="com.wusiq.sharding.po.TbUser">
+		update tb_user set user_name=#{userName} where user_id=#{userID}
+	</update>
+
+    <select id="findByUserID" resultMap="userMap">
+        select * from tb_user where user_id=#{userID}
+    </select>
+
+    <delete id="deleteByUserID">
+        	delete from tb_user where user_id=#{userID}
+    </delete>
+</mapper>

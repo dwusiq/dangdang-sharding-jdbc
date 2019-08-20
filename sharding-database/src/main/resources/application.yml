@@ -1,0 +1,37 @@
+#mybatis config
+mybatis:
+  typeAliasesPackage: com.wusiq.sharding
+  mapperLocations: classpath:mapper/*.xml
+
+
+spring:
+  shardingsphere:
+    datasource:
+      names: mydb0,mydb1
+      mydb0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/mydb0?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: 123456
+      mydb1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/mydb1?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: 123456
+
+    sharding:
+      default-database-strategy:
+        inline:
+          sharding-column: user_id
+          algorithm-expression: mydb$->{user_id % 2}
+      tables:
+        tb_user:
+          actual-data-nodes: mydb$->{0..1}.tb_user
+          table-strategy:
+            inline:
+              sharding-column: user_id
+              algorithm-expression: mydb$->{user_id % 2}.tb_user
+    props:
+      sql.show: true
