@@ -1,0 +1,22 @@
+sharding-table/HELP.md
+sharding-table/.gradle
+sharding-table/build/
+sharding-table/!gradle/wrapper/gradle-wrapper.jar
+sharding-table/!**/src/main/**
+sharding-table/!**/src/test/**
+
+### STS ###
+sharding-table/.apt_generated
+sharding-table/.classpath
+sharding-table/.factorypath
+sharding-table/.project
+sharding-table/.settings
+sharding-table/.springBeans
+sharding-table/.sts4-cache
+
+### IntelliJ IDEA ###
+sharding-table/.idea
+sharding-table/*.iws
+sharding-table/*.iml
+sharding-table/*.ipr
+sharding-table/out/
