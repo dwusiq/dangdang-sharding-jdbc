@@ -1,0 +1,50 @@
+#mybatis config
+mybatis:
+  typeAliasesPackage: com.wusiq.sharding
+  mapperLocations: classpath:mapper/*.xml
+
+
+
+spring:
+  shardingsphere:
+    datasource:
+      names: mydb0,mydb1
+      mydb0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/mydb0?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: 123456
+      mydb1:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/mydb1?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: 123456
+
+    sharding:
+      default-database-strategy:
+        inline:
+          sharding-column: user_id
+          algorithm-expression: mydb$->{user_id % 2}
+      tables:
+        tb_user:
+          table-strategy:
+            inline:
+              sharding-column: user_id
+              algorithm-expression: tb_user_$->{user_id % 2}
+      binding-tables: tb_user
+
+#  spring.shardingsphere.sharding.tables.bill_asset_user.table-strategy.inline.sharding-column=id
+#  spring.shardingsphere.sharding.tables.bill_asset_user.table-strategy.inline.algorithm-expression=bill_asset_user_$->{id % 2}
+#  spring.shardingsphere.sharding.tables.bill_asset_user.key-generator.column=order_no
+#
+
+  # spring.shardingsphere.sharding.binding-tables=bill_asset_user
+
+
+
+
+
+    props:
+      sql.show: true
